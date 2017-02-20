@@ -1,7 +1,6 @@
-
 #include <Arduino.h>
 
-#define LEG_BUILTIN 13
+#define LED_BUILTIN 13
 
 float t = 500.0;
 
