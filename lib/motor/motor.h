@@ -5,10 +5,12 @@
 
 class Motor{
 public:
-  Motor(int motor1, int motor2, int motor3, int motor4);
+  Motor(int enA, int in1, int in2);
   Motor(){}
+  void Turn(int speed, int direction);
+  void motorSetup();
 private:
-  int motor1Pin, motor2Pin, motor3Pin, motor4Pin;
+  int enAPin, in1Pin, in2Pin, motorSpeed, motorDirection;
 };
 
 #endif
