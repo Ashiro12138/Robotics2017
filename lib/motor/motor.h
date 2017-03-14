@@ -5,12 +5,13 @@
 
 class Motor{
 public:
-  Motor(int enA, int in1, int in2);
+  Motor(int enA, int in1, int in2, int angle);
   Motor(){}
-  void Turn(int speed, int direction);
-  void motorSetup();
+  void move(double speed, int max = 100);
+  void move(int speed, int max = 100);
+  int getAngle();
 private:
-  int enAPin, in1Pin, in2Pin, motorSpeed, motorDirection;
+  int enAPin, in1Pin, in2Pin, motorSpeed, dirAngle;
 };
 
 #endif
