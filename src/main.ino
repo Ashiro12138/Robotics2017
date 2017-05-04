@@ -1,12 +1,12 @@
 #include "Arduino.h"
 #include <motor.h>
 
-Motor motor1 = Motor(9, 8, 7);
+Motor motor1;
 
 void setup(){
-  motor1.motorSetup();
+  motor1.Setup(10,9,8);
 }
 
 void loop(){
-  motor1.Turn(255,1);
+  motor1.Move(255,1)
 }
