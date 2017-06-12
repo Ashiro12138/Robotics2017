@@ -1,0 +1,80 @@
+Let there be 4 Parents: A, B, C, and D
+
+A - 1, 2, 3, 4
+B - 5, 6
+C - 7, 8       
+D - 9, 10     
+
+
+
+	___		   _____
+   /   \	  /		\
+  /     \____/		 \
+ /		 1	 2		  \
+|		 3	 4 		  |
+|		              |
+| 5	 6			8	7 |
+\                     /
+ \  				 /
+  \ 	9	10		/
+   \_______________/
+		
+Let ON be the trigger of light sensor
+let OFF be the untrigger of the light sensor
+
+//Basic Block
+
+if A == ON and B == ON:
+	you are at top left corner
+	you can't move left and up anymore
+	you need to move down and right
+elif A == ON and C == ON:
+	you are at top right corner
+	you can't move right and up anymore
+	you need to move down and left
+elif D == ON and B == ON:
+	you are at bottom left corner
+	you can't move left and up anymore
+	you need to move up and right
+elif D == ON and C == ON:
+	you are at bottom right corner
+	you can't move right and down anymore
+	you need to move up and left
+
+elif A == ON:
+	You are at top
+	you can't move up
+	you need to move down
+elif B == ON:
+	You are at left
+	you can't move left
+	you need to move right
+elif C == ON:
+	You are at right
+	you can't move right
+	you need to move left
+elif D == ON:
+	You are at down
+	you can't move down
+	you need to move up
+	
+let there be 2 Parents: OUTER and INNER
+
+OUTER - 1, 2, 5, 7, 9, 10
+INNER - 3, 4, 6, 8
+
+//Emergency Block
+
+INNER is a lot more important than OUTER, if INNER is ON, the robot should take immediate actions.
+On the other side, if only OUTER is ON, the robot may continue moving but the area of A,B,C or D will be abandoned.
+
+//Expectations Block
+
+Technically, area A and D will not be ON at the same time, nor the same with area B and C.
+However, if it does happen, these 2 areas should be abandoned and only move into the other two directions until the unexpected case is solved.
+
+If everything is on,
+spin wildly in a random circle trying to kill any other robots
+which are near it (especially enemy robots)
+
+
