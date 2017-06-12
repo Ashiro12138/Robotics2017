@@ -1,9 +1,9 @@
 #include <Arduino.h>
 #include "motor.h"
+#include "motorController.h"
 
 int main(){
-	Motor motor1;
-	motor1.Setup(10, 9, 8);
-	motor1.Move(255, 1);
+	MotorController motor;
+	motor.Move(255,0);
 	return 0;
 }
