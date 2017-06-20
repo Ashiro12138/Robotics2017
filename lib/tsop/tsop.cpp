@@ -25,11 +25,11 @@ void TSOP::Refresh(){
 }
 
 void TSOP::Read(){
-  while(count<100){
+  while(count<200){
     ReadOnce();
   }
 }
 
 void TSOP::FinishRead(){
-  
+
 }
