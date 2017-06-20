@@ -21,40 +21,11 @@ MotorController motor;
 
 void setup(){
 	motor.Setup();
-	motor.Move(255, 0);
 }
 
-
-/*void loop(){
-	for (int i = 1; i < 256; i++) {
-		motor1.Move(i,1);
-		motor2.Move(i,-1);
-		motor3.Move(i,1);
-		motor4.Move(i,-1);
-		delay(10);
-	}
-	for (int i = i; i > 0; i--) {
-		motor1.Move(i,-1);
-		motor2.Move(i,1);
-		motor3.Move(i,-1);
-		motor4.Move(i,1);
-		delay(10);
-	}
-	for (int i = 1; i < 256; i++) {
-		motor1.Move(i,1);
-		motor2.Move(i,-1);
-		motor3.Move(i,1);
-		motor4.Move(i,-1);
-		delay(10);
-	}
-	for (int i = i; i > 0; i--) {
-		motor1.Move(i,1);
-		motor2.Move(i,-1);
-		motor3.Move(i,1);
-		motor4.Move(i,-1);
-		delay(10);
-	}
-}
-*/
 void loop(){
+	for (int i = 1; i < 256; i++) {
+		motor.Move(100, i);
+		delay(100);
+	}
 }
