@@ -20,7 +20,7 @@ void TSOP::ReadOnce(){
 
 void TSOP::Refresh(){
   digitalWrite(TSOP_POWER, LOW);
-  delay(10);
+  delay(2);
   digitalWrite(TSOP_POWER, HIGH);
 }
 
