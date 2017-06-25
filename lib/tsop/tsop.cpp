@@ -28,6 +28,7 @@ void TSOP::Read(){
   while(count<200){
     ReadOnce();
   }
+  FinishRead();
 }
 
 void TSOP::FinishRead(){

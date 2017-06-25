@@ -29,6 +29,5 @@ void setup(){
 
 void loop(){
 	tsop.Read();
-	tsop.FinishRead();
 	delay(1000);
 }
