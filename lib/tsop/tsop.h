@@ -1,7 +1,7 @@
 #ifndef TSOP_H
 #define TSOP_H
 
-#define TSOP_POWER 52
+#define TSOP_POWER 50
 #define TSOP_DELAY 2
 #define TSOP_0 46
 #define TSOP_1 48
