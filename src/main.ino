@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include "motor.h"
 #include "motorController.h"
+#include "tsop.h"
 //#include "motorController.h"
 
 // 13 12 11 Front Left   Positive -true-> Negative    COSINE
@@ -18,14 +19,16 @@
 */
 
 MotorController motor;
+TSOP tsop;
 
 void setup(){
+	Serial.begin(9600);
 	motor.Setup();
+	tsop.Setup();
 }
 
 void loop(){
-	for (int i = 1; i < 256; i++) {
-		motor.Move(100, i);
-		delay(100);
-	}
+	tsop.Read();
+	tsop.FinishRead();
+	delay(1000);
 }
