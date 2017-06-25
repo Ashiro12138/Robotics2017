@@ -33,7 +33,7 @@ void TSOP::Read(){
 
 void TSOP::FinishRead(){
   for (int i = 0; i < 12; i++) {
-    Serial.println("TSOP"+String(i)+":"+String(TSOPVAL[i]));
+    Serial.println("TSOP"+String(i)+": "+String(TSOPVAL[i]));
     TSOPVAL[i] = 0;
   }
   Serial.println();
