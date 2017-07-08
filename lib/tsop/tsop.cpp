@@ -40,3 +40,7 @@ void TSOP::FinishRead(){
   count = 0;
   Refresh();
 }
+
+void TSOP::FilterValues(){
+  
+}
