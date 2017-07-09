@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include "motorController.h"
 
-#define pi 3.141592653
+#include "defines.h"
 
 void MotorController::Setup(){
   motor1.Setup(13,12,11,true);
