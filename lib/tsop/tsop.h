@@ -25,9 +25,9 @@ public:
   void Refresh();
   void FilterValues();
   void GetAngleSimple();
-  void GetAngle();
+  void GetAngle(int n);
   void GetStrengthSimple();
-  void GetStrength();
+  void GetStrength(int n);
 };
 
 #endif

@@ -92,17 +92,25 @@ void TSOP::FilterValues(){
 }
 
 void TSOP::GetAngleSimple(){
-
+  if(SORTEDFILTEREDVAL[0] <= 5){
+    simpleAngle = -1;
+  } else {
+    simpleAngle = SORTEDINDEX[0] * 360 / TSOP_NUM;
+  }
 }
 
-void TSOP::GetAngle(){
+void TSOP::GetAngle(int n){
 
 }
 
 void TSOP::GetStrengthSimple(){
-
+  simpleStrength = SORTEDFILTEREDVAL[0];
 }
 
-void TSOP::GetStrength(){
-
+void TSOP::GetStrength(int n){
+  int total = 0;
+  for (int i = 0; i < n; i++){
+    total += SORTEDFILTEREDVAL[i];
+  }
+  strength = (double)total / n;
 }
