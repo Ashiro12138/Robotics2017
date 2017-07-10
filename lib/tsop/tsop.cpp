@@ -96,6 +96,7 @@ void TSOP::FilterValues(){
       }
     }
     SORTEDFILTEREDVAL[i] = maxVal;
+    SORTEDINDEX[i] = maxInd;
     FILTEREDVAL[maxInd] = -1;
   }
 

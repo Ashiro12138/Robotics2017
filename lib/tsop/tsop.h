@@ -11,6 +11,7 @@ public:
   int TEMPFILTEREDVAL[12] = {0};
   int FILTEREDVAL[12] = {0};
   int SORTEDFILTEREDVAL[12] = {0};
+  int SORTEDINDEX[12] = {0};
   int count = 0;
   int angle = 0;
   int simpleAngle = 0;
