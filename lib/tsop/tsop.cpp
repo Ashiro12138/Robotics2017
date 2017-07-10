@@ -1,4 +1,4 @@
-#include <Arduino.h>
+#include "Arduino.h"
 #include "tsop.h"
 
 void TSOP::Setup(){
@@ -42,7 +42,7 @@ void TSOP::FinishRead(){
   Refresh();
 }
 
-void TSOP::FilterValues(){
+/*void TSOP::FilterValues(){
   //Remove Noise
   for (int i = 0; i < 12; i++) {
     #if TSOP_FILTER_NOISE
@@ -54,6 +54,23 @@ void TSOP::FilterValues(){
     #else
       TEMPFILTEREDVAL[i] = TSOPVAL[i];
     #endif
+  }
+
+  // a rather efficient way to filter data by scoring each data by the tsop by it's adjacent tsops
+  for (int i = 0; i < TSOP_NUM; i++){
+      #if TSOP_FILTER_SURROUNDING
+          int temp = TSOP_K1 * tempFilteredValues[i] +
+          TSOP_K2 * (tempFilteredValues[mod(i - 1, TSOP_NUM)] +
+          tempFilteredValues[mod(i - 1, TSOP_NUM)]) +
+          TSOP_K3 * (tempFilteredValues[mod(i - 2, TSOP_NUM)] +
+          tempFilteredValues[mod(i - 2, TSOP_NUM)]);
+      #else
+          int temp = tempFilteredValues[i] << 4;
+      #endif
+
+      // TSOP_K1 + 2 * TSOP_K2 + 2 * TSOP_K3 = 16 so we must divide the value by 16
+
+      filteredValues[i] = temp >> 4;
   }
 
   //Filter By Surrounding
@@ -100,3 +117,4 @@ void TSOP::GetStrengthSimple(){
 void TSOP::GetStrength(){
 
 }
+*/
