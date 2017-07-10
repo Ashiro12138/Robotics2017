@@ -42,7 +42,7 @@ void TSOP::FinishRead(){
   Refresh();
 }
 
-/*void TSOP::FilterValues(){
+void TSOP::FilterValues(){
   //Remove Noise
   for (int i = 0; i < TSOP_NUM; i++) {
     #if TSOP_FILTER_NOISE
@@ -117,4 +117,3 @@ void TSOP::GetStrengthSimple(){
 void TSOP::GetStrength(){
 
 }
-*/
