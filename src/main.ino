@@ -1,7 +1,7 @@
-#include <Arduino.h>
-#include "motor.h"
-#include "motorController.h"
-#include "tsop.h"
+#include "Arduino.h"
+#include <motor.h>
+#include <motorController.h>
+#include <tsop.h>
 //#include "motorController.h"
 
 // 13 12 11 Front Left   Positive -true-> Negative    COSINE

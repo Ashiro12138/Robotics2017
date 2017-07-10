@@ -1,8 +1,8 @@
 #ifndef MOTORCONTROLLER_H
 #define MOTORCONTROLLER_H
 
-#include <Arduino.h>
-#include "motor.h"
+#include "Arduino.h"
+#include <motor.h>
 
 class MotorController{
 public:

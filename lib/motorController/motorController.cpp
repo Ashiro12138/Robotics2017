@@ -1,7 +1,7 @@
-#include <Arduino.h>
-#include "motorController.h"
+#include "Arduino.h"
+#include <motorController.h>
 
-#include "defines.h"
+#include <defines.h>
 
 void MotorController::Setup(){
   motor1.Setup(13,12,11,true);
