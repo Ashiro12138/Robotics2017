@@ -7,4 +7,6 @@ int sign(double value);
 
 double doubleAbs(double value);
 
+int mod(int x, int y);
+
 #endif

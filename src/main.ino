@@ -1,5 +1,6 @@
 #include "Arduino.h"
 #include <defines.h>
+#include <apexCommon.h>
 #include <motor.h>
 #include <motorController.h>
 #include <tsop.h>

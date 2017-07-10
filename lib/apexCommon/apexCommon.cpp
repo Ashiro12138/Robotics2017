@@ -11,3 +11,8 @@ int sign(double value) {
 double doubleAbs(double value) {
     return value * sign(value);
 }
+
+int mod(int x, int y){
+  int z = x % y;
+  return z < 0 ? z + y : z;
+}
