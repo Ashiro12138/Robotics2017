@@ -5,6 +5,7 @@
 #define pi 3.141592653
 
 // TSOPS
+#define TSOP_NUM 12
 #define TSOP_POWER 50
 #define TSOP_DELAY 2
 #define TSOP_0 46
