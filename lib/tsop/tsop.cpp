@@ -1,5 +1,5 @@
 #include "Arduino.h"
-#include "tsop.h"
+#include <tsop.h>
 
 void TSOP::Setup(){
   pinMode(TSOP_POWER, OUTPUT);
