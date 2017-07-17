@@ -1,5 +1,5 @@
-#include "Arduino.h"
-#include <motor.h>
+#include <Arduino.h>
+#include "motor.h"
 
 void Motor::Setup(int enA, int in1, int in2, bool reversed){
 	enAPin = enA;

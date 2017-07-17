@@ -1,10 +1,10 @@
-#include "Arduino.h"
+#include <Arduino.h>
 #include <defines.h>
 #include <apexCommon.h>
 #include <motor.h>
 #include <motorController.h>
 #include <tsop.h>
-//#include "motorController.h"
+#include <motorController.h>
 
 // 13 12 11 Front Left   Positive -true-> Negative    COSINE
 // 10 9  8  Back Left    Negative -false-> Negative   SINE
@@ -31,5 +31,7 @@ void setup(){
 
 void loop(){
 	tsop.Read();
-	delay(1000);
+	tsop.FilterValues();
+	motor.Move(255,tsop.SORTEDINDEX[0]*30);
+
 }
