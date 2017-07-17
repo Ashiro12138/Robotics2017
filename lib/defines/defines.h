@@ -6,20 +6,20 @@
 
 // TSOPS
 #define TSOP_NUM 12
-#define TSOP_POWER 50
+#define TSOP_POWER 52
 #define TSOP_DELAY 2
-#define TSOP_0 46
+#define TSOP_0 50
 #define TSOP_1 48
-#define TSOP_2 28
-#define TSOP_3 26
-#define TSOP_4 30
-#define TSOP_5 32
-#define TSOP_6 34
+#define TSOP_2 46
+#define TSOP_3 44
+#define TSOP_4 42
+#define TSOP_5 40
+#define TSOP_6 38
 #define TSOP_7 36
-#define TSOP_8 38
-#define TSOP_9 40
-#define TSOP_10 42
-#define TSOP_11 44
+#define TSOP_8 34
+#define TSOP_9 32
+#define TSOP_10 30
+#define TSOP_11 28
 
 
 // K1 + 2 * K2 + 2 * K3 = 16
