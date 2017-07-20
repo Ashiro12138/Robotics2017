@@ -33,5 +33,4 @@ void loop(){
 	tsop.Read();
 	tsop.FilterValues();
 	motor.Move(255,tsop.SORTEDINDEX[0]*30);
-
 }
