@@ -17,6 +17,7 @@ public:
   int simpleAngle = 0;
   int strength = 0;
   int simpleStrength = 0;
+  int print = 10;
 
   void Setup();
   void ReadOnce();

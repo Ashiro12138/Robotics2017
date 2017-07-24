@@ -35,7 +35,7 @@ void TSOP::Read(){
 
 void TSOP::FinishRead(){
   for (int i = 0; i < TSOP_NUM; i++) {
-    Serial.println("TSOP"+String(i)+": "+String(TSOPTEMPVAL[i]));
+    //Serial.println("TSOP"+String(i)+": "+String(TSOPTEMPVAL[i]));
     TSOPVAL[i] = TSOPTEMPVAL[i];
     TSOPTEMPVAL[i] = 0;
   }
@@ -48,7 +48,7 @@ void TSOP::FilterValues(){
   //Remove Noise
   for (int i = 0; i < TSOP_NUM; i++) {
     #if TSOP_FILTER_NOISE
-      if(TSOPVAL[i] < 5 || TSOPVAL[i] > 200){
+      if(TSOPVAL[i] < 5 || TSOPVAL[i] >= 200){
         TEMPFILTEREDVAL[i] = 0;
       } else{
         TEMPFILTEREDVAL[i] = TSOPVAL[i];
@@ -56,6 +56,10 @@ void TSOP::FilterValues(){
     #else
       TEMPFILTEREDVAL[i] = TSOPVAL[i];
     #endif
+  }
+
+  for (int i = 0; i < TSOP_NUM; i++) {
+    FILTEREDVAL[i] = TEMPFILTEREDVAL[i];
   }
   /*
   //Filter By Surrounding

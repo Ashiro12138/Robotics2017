@@ -32,5 +32,10 @@ void setup(){
 void loop(){
 	tsop.Read();
 	tsop.FilterValues();
-	motor.Move(255,tsop.SORTEDINDEX[0]*30);
+	tsop.GetAngleSimple();
+	// for (int i = 0; i < TSOP_NUM; i++) {
+	// 	Serial.println(tsop.SORTEDFILTEREDVAL[i]);
+	// 	Serial.println(tsop.SORTEDINDEX[i]);
+	// }
+	motor.Move(255,tsop.simpleAngle);
 }
