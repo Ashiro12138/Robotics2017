@@ -108,7 +108,12 @@ void TSOP::GetAngleSimple(){
 }
 
 void TSOP::GetAngle(int n){
+  double vectori = 0;
+  double vectorj = 0;
 
+  for(int i = 0; i < 12; i++){
+    vectrori += SORTEDFILTEREDVAL[i];
+  }
 }
 
 void TSOP::GetStrengthSimple(){
