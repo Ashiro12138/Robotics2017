@@ -1,6 +1,9 @@
 #ifndef DEFINES_H
 #define DEFINES_H
 
+// GENERAL
+#define DEBUG_MODE false
+
 // MATH
 #define pi 3.141592653
 
