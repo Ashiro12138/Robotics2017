@@ -24,9 +24,7 @@ MotorController motor;
 TSOP tsop;
 
 void setup(){
-	if(DEBUG_MODE){
-		Serial.begin(9600);
-	}
+	Serial.begin(9600);
 	motor.Setup();
 	tsop.Setup();
 }
@@ -34,12 +32,13 @@ void setup(){
 void loop(){
 	tsop.Read();
 	tsop.FilterValues();
-	tsop.GetAngleSimple();
+	tsop.GetAngle(3);
 	if(DEBUG_MODE){
 		for (int i = 0; i < TSOP_NUM; i++) {
 			Serial.println(tsop.SORTEDFILTEREDVAL[i]);
 			Serial.println(tsop.SORTEDINDEX[i]);
+			Serial.println(tsop.angle);
 		}
 	}
-	motor.Move(255,tsop.simpleAngle);
+	motor.Move(255,tsop.angle);
 }

@@ -111,8 +111,22 @@ void TSOP::GetAngle(int n){
   double vectori = 0;
   double vectorj = 0;
 
-  for(int i = 0; i < 12; i++){
-    vectrori += SORTEDFILTEREDVAL[i];
+  for(int i = 0; i < n; i++){
+    vectori += SORTEDFILTEREDVAL[i]*sin((SORTEDINDEX[i]*30)*pi/180);
+    vectorj += SORTEDFILTEREDVAL[i]*cos((SORTEDINDEX[i]*30)*pi/180);
+  }
+  if(vectori!=0||vectorj!=0){
+    if(vectori==0){
+      angle = vectorj > 0 ? 0 : 180;
+    }else{
+      if(vectori<0){
+        angle = (int)(round(270-atan(vectorj/vectori)*180/pi));
+      } else{
+        angle = (int)(round(90-atan(vectorj/vectori)*180/pi));
+      }
+    }
+  }else{
+    angle = 0;
   }
 }
 
