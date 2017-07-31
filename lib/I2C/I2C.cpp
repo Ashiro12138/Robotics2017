@@ -9,7 +9,7 @@ void I2Cread(uint8_t address, uint8_t registerAddress, uint8_t nBytes, uint8_t *
   uint8_t index = 0;
   while(Wire.available()){
     data[index] = Wire.read();
-    index++
+    index++;
   }
 }
 
