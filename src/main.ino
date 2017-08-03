@@ -29,14 +29,18 @@ Compass compass;
 
 void setup(){
 	Serial.begin(9600);
+	Serial.println("1");
 	compass.compassSetup();
+	Serial.println("2");
 	compass.calibrate();
+	Serial.println("3");
 	// motor.Setup();
 	// tsop.Setup();
 }
 
 void loop(){
 	compass.updateGyro();
+	Serial.println("Test");
 	Serial.println(compass.heading);
 	Serial.println(compass.calibration);
 	// tsop.Read();
