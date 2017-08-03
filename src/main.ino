@@ -29,6 +29,7 @@ Compass compass;
 
 void setup(){
 	Serial.begin(9600);
+	Wire.begin();
 	Serial.println("1");
 	compass.compassSetup();
 	Serial.println("2");
@@ -43,6 +44,7 @@ void loop(){
 	Serial.println("Test");
 	Serial.println(compass.heading);
 	Serial.println(compass.calibration);
+	delay(1000);
 	// tsop.Read();
 	// tsop.FilterValues();
 	// tsop.GetAngle(3);
