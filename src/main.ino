@@ -22,38 +22,34 @@
 			   180
 */
 
-// MotorController motor;
-// TSOP tsop;
+MotorController motor;
+TSOP tsop;
 Compass compass;
 
-
+//
 void setup(){
 	Serial.begin(9600);
 	Wire.begin();
-	Serial.println("1");
 	compass.compassSetup();
-	Serial.println("2");
 	compass.calibrate();
-	Serial.println("3");
-	// motor.Setup();
-	// tsop.Setup();
+	motor.Setup();
+	tsop.Setup();
 }
 
 void loop(){
 	compass.updateGyro();
-	Serial.println("Test");
 	Serial.println(compass.heading);
 	Serial.println(compass.calibration);
+	tsop.Read();
+	tsop.FilterValues();
+	tsop.GetAngle(3);
+	if(DEBUG_MODE){
+		for (int i = 0; i < TSOP_NUM; i++) {
+			Serial.println(tsop.SORTEDFILTEREDVAL[i]);
+			Serial.println(tsop.SORTEDINDEX[i]);
+			Serial.println(tsop.angle);
+		}
+		delay(1000);
+	}
 	delay(1000);
-	// tsop.Read();
-	// tsop.FilterValues();
-	// tsop.GetAngle(3);
-	// if(DEBUG_MODE){
-	// 	for (int i = 0; i < TSOP_NUM; i++) {
-	// 		Serial.println(tsop.SORTEDFILTEREDVAL[i]);
-	// 		Serial.println(tsop.SORTEDINDEX[i]);
-	// 		Serial.println(tsop.angle);
-	// 	}
-	// }
-	// motor.Move(255,tsop.angle);
 }
