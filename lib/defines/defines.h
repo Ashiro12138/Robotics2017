@@ -35,6 +35,17 @@
 #define TSOP_FILTER_NOISE true
 #define TSOP_FILTER_SURROUNDING true
 
+// Light Sensor
+#define DEFAULT_THRESHOLD 350
+
+#define LS_BUFFER 20
+
+#define LS_CALIBRATE_COUNT 10
+
+#define LS_DELAY 400
+
+#define LS_URGENCY 7.5
+
 // Compass
 #define MPU9250_ADDRESS 0x68
 #define MAG_ADDRESS 0x0C
