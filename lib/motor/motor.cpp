@@ -11,26 +11,34 @@ void Motor::Setup(int enA, int in1, int in2, bool reversed){
 	pinMode(in2Pin, OUTPUT);
 }
 
-void Motor::Move(int speed, int direction){
+void Motor::Move(int speed){
 	if(reversedDirection){
-		if(direction==1){
+		if(speed > 0){
 			digitalWrite(in1Pin, HIGH);
 			digitalWrite(in2Pin, LOW);
-			analogWrite(enAPin, speed);
-		} else if(direction==-1){
+			analogWrite(enAPin, abs(speed));
+		} else if(speed < 0){
 			digitalWrite(in1Pin, LOW);
 			digitalWrite(in2Pin, HIGH);
-			analogWrite(enAPin, speed);
-    }
+			analogWrite(enAPin, abs(speed));
+    } else {
+			digitalWrite(in1Pin, LOW);
+			digitalWrite(in2Pin, LOW);
+			analogWrite(enAPin, 255);
+		}
 	}else{
-    if(direction==1){
+    if(speed > 0){
 			digitalWrite(in1Pin, LOW);
 			digitalWrite(in2Pin, HIGH);
-			analogWrite(enAPin, speed);
-		} else if(direction==-1){
+			analogWrite(enAPin, abs(speed));
+		} else if(speed < 0){
 			digitalWrite(in1Pin, HIGH);
 			digitalWrite(in2Pin, LOW);
-			analogWrite(enAPin, speed);
-	  }
+			analogWrite(enAPin, abs(speed));
+	  } else {
+			digitalWrite(in1Pin, LOW);
+			digitalWrite(in2Pin, LOW);
+			analogWrite(enAPin, 255);
+		}
 	}
 }
