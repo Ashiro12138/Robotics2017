@@ -3,11 +3,18 @@
 #include "motorController.h"
 
 
-void MotorController::Setup(){
-  motorFrontLeft.Setup(13,12,11,true);
-  motorBackLeft.Setup(10,9,8,false);
-  motorBackRight.Setup(7,6,5,true);
-  motorFrontRight.Setup(4,3,2,false);
+void MotorController::Setup(int robot){
+  if (robot==1){
+    motorBackLeft.Setup(13,12,11,true);
+    motorFrontLeft.Setup(10,9,8,false);
+    motorFrontRight.Setup(7,6,5,true);
+    motorBackRight.Setup(4,3,2,false);
+  }else{
+    motorFrontLeft.Setup(13,12,11,true);
+    motorBackLeft.Setup(10,9,8,false);
+    motorBackRight.Setup(7,6,5,true);
+    motorFrontRight.Setup(4,3,2,false);
+  }
 }
 
 void MotorController::Move(int angle, int rotation, int speed){

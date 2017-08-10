@@ -33,8 +33,12 @@ void setup(){
 	Wire.begin();
 	compass.compassSetup();
 	compass.calibrate();
-	motor.Setup();
+	motor.Setup(1);
 	tsop.Setup();
+	// pinMode(A0,INPUT);
+	// pinMode(A1,INPUT);
+	// pinMode(A2,INPUT);
+	// pinMode(A3,INPUT);
 }
 
 void loop(){
@@ -43,6 +47,10 @@ void loop(){
 	tsop.FilterValues();
 	tsop.GetAngle(3);
 	tsop.GetStrength(3);
+	// int LightFront = analogRead(A0);
+	// int LightLeft = analogRead(A1);
+	// int LightBack = analogRead(A2);
+	// int LightRight = analogRead(A3);
 
 	int relativeHeading = compass.heading > 180 ? (360 - compass.heading) :-compass.heading;
 	int correctionRotation = 0;
@@ -78,7 +86,7 @@ void loop(){
 	}
 
 
-	Serial.print(tsop.strength);
+	// Serial.print(tsop.strength);
 
-	// motor.Move(tsop.angle, correctionRotation, 255);
+	// motor.Move(0, 0, 255);
 }

@@ -12,7 +12,7 @@ public:
   Motor motorFrontRight;
   Motor motorBackLeft;
   Motor motorBackRight;
-  void Setup();
+  void Setup(int robot);
   void Move(int angle, int rotation, int speed);
   void Turn(int speed);
   void Brake();
