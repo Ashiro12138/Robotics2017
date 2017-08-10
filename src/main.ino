@@ -17,7 +17,7 @@
       	 	 0
 					_  _
 				/	 V	\
-	90	|       |   270
+270  	|       |   90
 			\______/
 			   180
 */
@@ -42,32 +42,43 @@ void loop(){
 	tsop.Read();
 	tsop.FilterValues();
 	tsop.GetAngle(3);
-	int relativeHeading = compass.heading > 180 ? (360 - compass.heading) :-compass.heading;
+	tsop.GetStrength(3);
 
+	int relativeHeading = compass.heading > 180 ? (360 - compass.heading) :-compass.heading;
+	int correctionRotation = 0;
 	if (abs(relativeHeading) > GoalAcc) {
-	 	motor.Turn(constrain(relativeHeading * 5, -150, 150));
+		correctionRotation = constrain(relativeHeading * 7, -150, 150);
+	}
+
+
+	if (tsop.angle >= 350 || tsop.angle <= 10){
+		motor.Move(0,correctionRotation,255);
 	}else{
-		if (tsop.angle >= 350 || tsop.angle <= 10){
-			motor.Move(255,tsop.angle,0);
+		if(tsop.strength<110){
+			motor.Move(tsop.angle,correctionRotation,255);
 		}else{
 			if(tsop.angle <= 180){
 				if(tsop.angle >= 150){
-					motor.Move(255,270,0);
+					motor.Move(270,correctionRotation,255);
 				}else if(tsop.angle >= 60){
-					motor.Move(255,180,0);
+					motor.Move(180,correctionRotation,255);
 				}else{
-					motor.Move(180,90,0);
+					motor.Move(90,correctionRotation,255);
 				}
 			}else{
 				if(tsop.angle <= 210){
-					motor.Move(255,90,0);
+					motor.Move(90,correctionRotation,255);
 				}else if(tsop.angle <= 300){
-					motor.Move(255,180,0);
+					motor.Move(180,correctionRotation,255);
 				}else{
-					motor.Move(180,270,0);
+					motor.Move(270,correctionRotation,255);
 				}
 			}
 		}
 	}
-	Serial.print(tsop.angle);
+
+
+	Serial.print(tsop.strength);
+
+	// motor.Move(tsop.angle, correctionRotation, 255);
 }

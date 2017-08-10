@@ -4,43 +4,55 @@
 
 
 void MotorController::Setup(){
-  motor1.Setup(13,12,11,true);
-  motor2.Setup(10,9,8,false);
-  motor3.Setup(7,6,5,true);
-  motor4.Setup(4,3,2,false);
+  motorFrontLeft.Setup(13,12,11,true);
+  motorBackLeft.Setup(10,9,8,false);
+  motorBackRight.Setup(7,6,5,true);
+  motorFrontRight.Setup(4,3,2,false);
 }
 
-void MotorController::Move(double speed, double direction, int rotation){
-	vector1 = sin(2*pi*((direction+45)/360))*speed;
-	vector2 = cos(2*pi*((direction+45)/360))*speed;
+void MotorController::Move(int angle, int rotation, int speed){
+  angle = mod(90 - angle, 360);
 
-	if(abs(vector1) > abs(vector2)){
-		off = speed / abs(vector1);
-		vector1 *= off;
-		vector2 *= off;
-	} else{
-		off = speed / abs(vector2);
-		vector1 *= off;
-		vector2 *= off;
-	}
+  double a = cos(degreesToRadians(angle)) / sin(degreesToRadians(45));
+  double b = sin(degreesToRadians(angle)) / cos(degreesToRadians(45));
 
-  motor1.Move(vector1 + rotation);
-  motor2.Move(vector2 + rotation);
-  motor3.Move(-vector1 + rotation);
-  motor4.Move(-vector2 + rotation);
+  double motorRightValue = a - b;
+  double motorBackRightValue = -a - b;
+  double motorBackLeftValue = b - a;
+  double motorLeftValue = a + b;
 
+  double updatedSpeed = (double) speed / doubleAbs(fmax(fmax(fmax(doubleAbs(motorLeftValue), doubleAbs(motorRightValue)), doubleAbs(motorBackRightValue)), doubleAbs(motorBackLeftValue)));
+
+  int motorRightSpeed = (int) round(motorRightValue * updatedSpeed) + rotation;
+  int motorLeftSpeed = (int) round(motorLeftValue * updatedSpeed) + rotation;
+  int motorBackRightSpeed = (int) round(motorBackRightValue * updatedSpeed) + rotation;
+  int motorBackLeftSpeed = (int) round(motorBackLeftValue * updatedSpeed) + rotation;
+
+  double updatedSpeed2 = (double) 255 / doubleAbs(fmax(fmax(fmax(doubleAbs(motorLeftSpeed), doubleAbs(motorRightSpeed)), doubleAbs(motorBackRightSpeed)), doubleAbs(motorBackLeftSpeed)));
+
+  if (updatedSpeed2 < 1) {
+    int motorRightSpeed = (int) round(motorRightSpeed * updatedSpeed2);
+    int motorLeftSpeed = (int) round(motorLeftSpeed * updatedSpeed2);
+    int motorBackRightSpeed = (int) round(motorBackRightSpeed * updatedSpeed2);
+    int motorBackLeftSpeed = (int) round(motorBackLeftSpeed * updatedSpeed2);
+  }
+
+  motorFrontRight.Move(motorRightSpeed);
+  motorFrontLeft.Move(motorLeftSpeed);
+  motorBackRight.Move(motorBackRightSpeed);
+  motorBackLeft.Move(motorBackLeftSpeed);
 }
 
 void MotorController::Turn(int speed){
-  motor1.Move(speed);
-  motor2.Move(speed);
-  motor3.Move(speed);
-  motor4.Move(speed);
+  motorFrontLeft.Move(speed);
+  motorFrontRight.Move(speed);
+  motorBackLeft.Move(speed);
+  motorBackRight.Move(speed);
 }
 
 void MotorController::Brake(){
-  motor1.Move(0);
-  motor2.Move(0);
-  motor3.Move(0);
-  motor4.Move(0);
+  motorFrontLeft.Move(0);
+  motorFrontRight.Move(0);
+  motorBackLeft.Move(0);
+  motorBackRight.Move(0);
 }

@@ -3,16 +3,17 @@
 
 #include "Arduino.h"
 #include <motor.h>
+#include <apexCommon.h>
 
 class MotorController{
 public:
   double vector1, vector2, off;
-  Motor motor1;
-  Motor motor2;
-  Motor motor3;
-  Motor motor4;
+  Motor motorFrontLeft;
+  Motor motorFrontRight;
+  Motor motorBackLeft;
+  Motor motorBackRight;
   void Setup();
-  void Move(double speed, double direction, int rotation);
+  void Move(int angle, int rotation, int speed);
   void Turn(int speed);
   void Brake();
 };
