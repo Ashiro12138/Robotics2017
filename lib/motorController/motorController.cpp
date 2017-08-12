@@ -18,6 +18,7 @@ void MotorController::Setup(int robot){
 }
 
 void MotorController::Move(int angle, int rotation, int speed){
+  Serial.println(angle);
   angle = mod(90 - angle, 360);
 
   double a = cos(degreesToRadians(angle)) / sin(degreesToRadians(45));

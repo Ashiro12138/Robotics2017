@@ -104,6 +104,7 @@ void TSOP::GetAngleSimple(){
   }
 }
 
+
 void TSOP::GetAngle(int n){
   double vectori = 0;
   double vectorj = 0;
@@ -126,6 +127,10 @@ void TSOP::GetAngle(int n){
     angle = 0;
   }
   angle = 360 - angle;
+  int mag = pow(vectori * vectori + vectorj * vectorj, 0.5);
+  // Serial.println(mag);
+  if (mag < 25) angle = -30;
+//Serial.println(angle);
 }
 
 void TSOP::GetStrengthSimple(){
