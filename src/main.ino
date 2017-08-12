@@ -79,7 +79,6 @@ void loop(){
 		}
 	}
 
-	Serial.printf("%f. %f. %f. %f.",)
 
 	// Serial.print(tsop.angle);
 	// Serial.print(" ");
