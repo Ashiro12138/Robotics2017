@@ -5,6 +5,8 @@
 #include <motorController.h>
 #include <tsop.h>
 #include <motorController.h>
+#include <Compass.h>
+#include <I2C.h>
 
 // 13 12 11 Front Left   Positive -true-> Negative    COSINE
 // 10 9  8  Back Left    Negative -false-> Negative   SINE
@@ -22,23 +24,23 @@
 
 MotorController motor;
 TSOP tsop;
+Compass compass;
 
 void setup(){
 	Serial.begin(9600);
 	motor.Setup();
 	tsop.Setup();
+	Wire.begin();
+	compass.compassSetup();
 }
 
 void loop(){
 	tsop.Read();
 	tsop.FilterValues();
 	tsop.GetAngle(3);
-	if(DEBUG_MODE){
-		for (int i = 0; i < TSOP_NUM; i++) {
-			Serial.println(tsop.SORTEDFILTEREDVAL[i]);
-			Serial.println(tsop.SORTEDINDEX[i]);
-			Serial.println(tsop.angle);
-		}
-	}
-	motor.Move(255,tsop.angle);
+	tsop.GetStrength(3);
+
+	Serial.println(compass.heading);
+
+	// motor.Move(255,tsop.angle);
 }
