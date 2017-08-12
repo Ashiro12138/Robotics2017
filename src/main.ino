@@ -90,9 +90,9 @@ void loop(){
 			delay(LightDelay);
 		}else{
 			if(compass.heading < 360-GoalAcc && compass.heading > 180){
-				motor.Turn(40,1);
+				motor.Turn(180,1);
 			}else if(compass.heading > GoalAcc && compass.heading <= 180){
-				motor.Turn(40,-1);
+				motor.Turn(180,-1);
 			}else{
 				if(tsop.strength==0){
 					motor.Brake();
