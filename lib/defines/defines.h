@@ -65,4 +65,14 @@
 
 #define MOTOR_ANGLE 45
 
+// Light Sensors
+#define LightFrontG 16
+#define LightFrontW 96
+#define LightLeftG 22
+#define LightLeftW 108
+#define LightBackG 42
+#define LightBackW 200
+#define LightRightG 25
+#define LightRightW 240
+
 #endif
