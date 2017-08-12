@@ -35,6 +35,7 @@ void setup(){
 }
 
 void loop(){
+	compass.updateGyro();
 	tsop.Read();
 	tsop.FilterValues();
 	tsop.GetAngle(3);
