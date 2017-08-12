@@ -11,8 +11,8 @@ void MotorController::Setup(){
 }
 
 void MotorController::Move(double speed, double direction){
-	vector1 = cos(2*pi*((direction+45)/360))*speed;
-	vector2 = sin(2*pi*((direction+45)/360))*speed;
+	vector1 = sin(2*pi*((direction+45)/360))*speed;
+	vector2 = cos(2*pi*((direction+45)/360))*speed;
 
 	if(abs(vector1) > abs(vector2)){
 		off = speed / abs(vector1);
@@ -31,16 +31,23 @@ void MotorController::Move(double speed, double direction){
 
 }
 
-void MotorController::Turn(int speed){
-  if(speed>0){
+void MotorController::Turn(int speed, int direction){
+  if(direction==1){
     motor1.Move(speed, 1);
     motor2.Move(speed, 1);
-    motor3.Move(speed, 1);
-    motor4.Move(speed, 1);
+    motor3.Move(speed, -1);
+    motor4.Move(speed, -1);
   }else{
     motor1.Move(speed,-1);
     motor2.Move(speed,-1);
-    motor3.Move(speed,-1);
-    motor4.Move(speed,-1);
+    motor3.Move(speed, 1);
+    motor4.Move(speed, 1);
   }
+}
+
+void MotorController::Brake(){
+  motor1.Brake();
+  motor2.Brake();
+  motor3.Brake();
+  motor4.Brake();
 }

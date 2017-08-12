@@ -13,7 +13,8 @@ public:
   Motor motor4;
   void Setup();
   void Move(double speed, double direction);
-  void Turn(int speed);
+  void Turn(int speed, int direction);
+  void Brake();
 };
 
 

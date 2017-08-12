@@ -34,3 +34,9 @@ void Motor::Move(int speed, int direction){
 	  }
 	}
 }
+
+void Motor::Brake(){
+	digitalWrite(in1Pin, LOW);
+	digitalWrite(in2Pin, LOW);
+	analogWrite(enAPin, 0);
+}

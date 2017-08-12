@@ -42,20 +42,49 @@ void loop(){
 	tsop.Read();
 	tsop.FilterValues();
 	tsop.GetAngle(3);
-	tsop.GetStrength(3);
+	tsop.GetStrength(6);
 
-	if(compass.heading < 360-GoalAcc && compass.heading > 180){
-		motor.Turn(255,1);
-	}else if(compass.heading > GoalAcc && compass.heading <= 180){
-		motor.Turn(255,-1);
-	}else{
-		if(tsop.strength < 80){
-			motor.Move(255,tsop.angle);
-		}else{
-			
-		}
-	}
 
-	Serial.println(compass.heading);
+	// if(compass.heading < 360-GoalAcc && compass.heading > 180){
+	// 	motor.Turn(140,1);
+	// }else if(compass.heading > GoalAcc && compass.heading <= 180){
+	// 	motor.Turn(140,-1);
+	// }else{
+	// 	if(tsop.strength==0){
+	// 		motor.Brake();
+	// 	} else if(tsop.strength < 60){
+	// 		motor.Move(255,tsop.angle);
+	// 	}else{
+	// 		if(tsop.angle <= 180){
+	// 			if(tsop.angle >= 150){
+	// 				motor.Move(255,270);
+	// 			}else if(tsop.angle >= 60){
+	// 				motor.Move(255,180);
+	// 			}else if(tsop.angle >= 30){
+	// 				motor.Move(180,90);
+	// 			}else{
+	// 				motor.Move(255,0);
+	// 			}
+	// 		}else{
+	// 			if(tsop.angle <= 210){
+	// 				motor.Move(255,90);
+	// 			}else if(tsop.angle <= 300){
+	// 				motor.Move(255,180);
+	// 			}else if(tsop.angle <= 330){
+	// 				motor.Move(180,270);
+	// 			}else{
+	// 				motor.Move(255,0);
+	// 			}
+	// 		}
+	// 	}
+	// }
+
+	Serial.printf("%f. %f. %f. %f.",)
+
+	// Serial.print(tsop.angle);
+	// Serial.print(" ");
+	// Serial.print(tsop.strength);
+	// Serial.print(" ");
+	// Serial.println(compass.heading);
 
 }

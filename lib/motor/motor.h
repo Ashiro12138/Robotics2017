@@ -9,6 +9,7 @@ public:
   bool reversedDirection;
   void Setup(int enA, int in1, int in2, bool reversed);
   void Move(int speed, int direction);
+  void Brake();
 };
 
 #endif
