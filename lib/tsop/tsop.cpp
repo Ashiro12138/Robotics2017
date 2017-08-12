@@ -35,9 +35,6 @@ void TSOP::Read(){
 
 void TSOP::FinishRead(){
   for (int i = 0; i < TSOP_NUM; i++) {
-    if(DEBUG_MODE){
-      Serial.println("TSOP"+String(i)+": "+String(TSOPTEMPVAL[i]));
-    }
     TSOPVAL[i] = TSOPTEMPVAL[i];
     TSOPTEMPVAL[i] = 0;
   }
@@ -128,6 +125,7 @@ void TSOP::GetAngle(int n){
   }else{
     angle = 0;
   }
+  angle = 360 - angle;
 }
 
 void TSOP::GetStrengthSimple(){
