@@ -26,12 +26,15 @@ MotorController motor;
 TSOP tsop;
 Compass compass;
 
+#define GoalAcc 7
+
 void setup(){
 	Serial.begin(9600);
 	motor.Setup();
 	tsop.Setup();
 	Wire.begin();
 	compass.compassSetup();
+	compass.calibrate();
 }
 
 void loop(){
@@ -41,7 +44,18 @@ void loop(){
 	tsop.GetAngle(3);
 	tsop.GetStrength(3);
 
+	if(compass.heading < 360-GoalAcc && compass.heading > 180){
+		motor.Turn(255,1);
+	}else if(compass.heading > GoalAcc && compass.heading <= 180){
+		motor.Turn(255,-1);
+	}else{
+		if(tsop.strength < 80){
+			motor.Move(255,tsop.angle);
+		}else{
+			
+		}
+	}
+
 	Serial.println(compass.heading);
 
-	// motor.Move(255,tsop.angle);
 }

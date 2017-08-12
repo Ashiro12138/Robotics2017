@@ -30,3 +30,17 @@ void MotorController::Move(double speed, double direction){
   motor4.Move(abs(vector2),(vector2>0)-(vector2<0));
 
 }
+
+void MotorController::Turn(int speed){
+  if(speed>0){
+    motor1.Move(speed, 1);
+    motor2.Move(speed, 1);
+    motor3.Move(speed, 1);
+    motor4.Move(speed, 1);
+  }else{
+    motor1.Move(speed,-1);
+    motor2.Move(speed,-1);
+    motor3.Move(speed,-1);
+    motor4.Move(speed,-1);
+  }
+}
