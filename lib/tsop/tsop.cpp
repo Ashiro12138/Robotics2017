@@ -38,7 +38,6 @@ void TSOP::FinishRead(){
     TSOPVAL[i] = TSOPTEMPVAL[i];
     TSOPTEMPVAL[i] = 0;
   }
-  Serial.println();
   count = 0;
   Refresh();
 }

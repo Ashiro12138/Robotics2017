@@ -4,10 +4,17 @@
 
 
 void MotorController::Setup(){
-  motor1.Setup(13,12,11,true);
-  motor2.Setup(10,9,8,false);
-  motor3.Setup(7,6,5,false);
-  motor4.Setup(4,3,2,true);
+  if(false){
+    motor1.Setup(13,12,11,true);
+    motor2.Setup(10,9,8,false);
+    motor3.Setup(7,6,5,false);
+    motor4.Setup(4,2,3,true);
+  }else{
+    motor4.Setup(13,12,11,true);
+    motor1.Setup(10,8,9,false);
+    motor2.Setup(7,6,5,false);
+    motor3.Setup(4,3,2,true);
+  }
 }
 
 void MotorController::Move(double speed, double direction){
@@ -32,16 +39,30 @@ void MotorController::Move(double speed, double direction){
 }
 
 void MotorController::Turn(int speed, int direction){
-  if(direction==1){
-    motor1.Move(speed, 1);
-    motor2.Move(speed, 1);
-    motor3.Move(speed, -1);
-    motor4.Move(speed, -1);
+  if(false){
+    if(direction==1){
+      motor1.Move(speed, 1);
+      motor2.Move(speed, 1);
+      motor3.Move(speed, -1);
+      motor4.Move(speed, -1);
+    }else{
+      motor1.Move(speed,-1);
+      motor2.Move(speed,-1);
+      motor3.Move(speed, 1);
+      motor4.Move(speed, 1);
+    }
   }else{
-    motor1.Move(speed,-1);
-    motor2.Move(speed,-1);
-    motor3.Move(speed, 1);
-    motor4.Move(speed, 1);
+    if(direction==1){
+      motor1.Move(speed, 1);
+      motor2.Move(speed, -1);
+      motor3.Move(speed, -1);
+      motor4.Move(speed, 1);
+    }else{
+      motor1.Move(speed,-1);
+      motor2.Move(speed, 1);
+      motor3.Move(speed, 1);
+      motor4.Move(speed,-1);
+    }
   }
 }
 

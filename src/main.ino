@@ -27,7 +27,7 @@ TSOP tsop;
 Compass compass;
 
 #define GoalAcc 7
-#define LightDelay 75
+#define LightDelay 25
 
 void setup(){
 	Serial.begin(9600);
@@ -63,76 +63,101 @@ void loop(){
 	bool LightBackOn = LightBack > LightBackMid;
 	bool LightRightOn = LightRight > LightRightMid;
 
-	if(LightFrontOn&&LightLeftOn){
-		motor.Move(255,135);
-		delay(LightDelay);
-	}else if(LightFrontOn&&LightRightOn){
-		motor.Move(255,225);
-		delay(LightDelay);
-	}if(LightBackOn&&LightLeftOn){
-		motor.Move(255,45);
-		delay(LightDelay);
-	}else if(LightBackOn&&LightRightOn){
-		motor.Move(255,315);
-		delay(LightDelay);
+
+	if(tsop.angle>=300||tsop.angle<=60){
+		motor.Move(255,tsop.angle);
 	}else{
-		if(LightFrontOn){
-			motor.Move(255,180);
-			delay(LightDelay);
-		}else if(LightLeftOn){
-			motor.Move(255,90);
-			delay(LightDelay);
-		}else if(LightBackOn){
-			motor.Move(255,0);
-			delay(LightDelay);
-		}else if(LightRightOn){
-			motor.Move(255,270);
-			delay(LightDelay);
+
+		// if(LightFrontOn&&LightLeftOn){
+		// 	motor.Move(255,135);
+		// 	delay(LightDelay);
+		// }else if(LightFrontOn&&LightRightOn){
+		// 	motor.Move(255,225);
+		// 	delay(LightDelay);
+		// }
+		// if(LightBackOn&&LightLeftOn){
+		// 	motor.Move(255,45);
+		// 	delay(LightDelay);
+		// }else if(LightBackOn&&LightRightOn){
+		// 	motor.Move(255,315);
+		// 	delay(LightDelay);
+		// }else{
+		// if(LightFrontOn){
+		// 	motor.Move(255,180);
+		// 	delay(LightDelay);
+		// }else{
+		// 	if(LightLeftOn){
+		// 		motor.Move(255,90);
+		// 		delay(LightDelay);
+		// 	}else if(LightBackOn){
+		// 		motor.Move(255,0);
+		// 		delay(LightDelay);
+		// 	}else if(LightRightOn){
+		// 		motor.Move(255,270);
+		// 		delay(LightDelay);
+		// 	}else{
+		if(compass.heading < 360-GoalAcc && compass.heading > 180){
+			motor.Turn(255,1);
+		}else if(compass.heading > GoalAcc && compass.heading <= 180){
+			motor.Turn(255,-1);
 		}else{
-			if(compass.heading < 360-GoalAcc && compass.heading > 180){
-				motor.Turn(180,1);
-			}else if(compass.heading > GoalAcc && compass.heading <= 180){
-				motor.Turn(180,-1);
+			if(tsop.strength==0){
+				motor.Brake();
+			} else if(tsop.strength < 60){
+				motor.Move(255,tsop.angle);
 			}else{
-				if(tsop.strength==0){
-					motor.Brake();
-				} else if(tsop.strength < 60){
-					motor.Move(255,tsop.angle);
-				}else{
-					if(tsop.angle <= 180){
-						if(tsop.angle >= 150){
-							motor.Move(255,270);
-						}else if(tsop.angle >= 60){
-							motor.Move(255,180);
-						}else if(tsop.angle >= 30){
-							motor.Move(180,90);
-						}else{
-							motor.Move(255,0);
-						}
+				if(tsop.angle <= 180){
+					if(tsop.angle >= 150){
+						motor.Move(255,270);
+					}else if(tsop.angle >= 60){
+						motor.Move(255,180);
+					}else if(tsop.angle >= 30){
+						motor.Move(180,90);
 					}else{
-						if(tsop.angle <= 210){
-							motor.Move(255,90);
-						}else if(tsop.angle <= 300){
-							motor.Move(255,180);
-						}else if(tsop.angle <= 330){
-							motor.Move(180,270);
-						}else{
-							motor.Move(255,0);
-						}
+						motor.Move(255,0);
+					}
+				}else{
+					if(tsop.angle <= 210){
+						motor.Move(255,90);
+					}else if(tsop.angle <= 300){
+						motor.Move(255,180);
+					}else if(tsop.angle <= 330){
+						motor.Move(180,270);
+					}else{
+						motor.Move(255,0);
 					}
 				}
 			}
 		}
 	}
+	}
 
 
-	Serial.print(LightFront);
-	Serial.print(" ");
-	Serial.print(LightLeft);
-	Serial.print(" ");
-	Serial.print(LightBack);
-	Serial.print(" ");
-	Serial.println(LightRight);
 
+	// motor.Move(255,0);
+	// motor.Turn(250,-1);
+	// Serial.print(tsop.angle);
+	// Serial.print(" ");
+	// Serial.println(compass.heading);
+	// 	}
+	// }
+	//
+	// Serial.println(compass.heading);
 
-}
+	// Serial.println(compass.heading);
+
+	// Serial.print(LightFront);
+	// Serial.print(" ");
+	// Serial.print(LightLeft);
+	// Serial.print(" ");
+	// Serial.print(LightBack);
+	// Serial.print(" ");
+	// Serial.println(LightRight);
+
+	// Serial.print(LightFront);
+	// Serial.print(" ");
+	// Serial.print(LightLeft);
+	// Serial.print(" ");
+	// Serial.print(LightBack);
+	// Serial.print(" ");
+	// Serial.println(LightRight);
