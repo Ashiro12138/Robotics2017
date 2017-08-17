@@ -7,6 +7,8 @@
 #include <MotorController.h>
 #include <I2C.h>
 #include <Compass.h>
+#include <lightSensor.h>
+#include <lightSensorArray.h>
 
 // 13 12 11 Front Left   Positive -true-> Negative    COSINE
 // 10 9  8  Back Left    Negative -false-> Negative   SINE
@@ -25,63 +27,62 @@
 MotorController Motor;
 TSOP tsop;
 Compass compass;
-
-int lastLight = 0;
+LightSensorArray lights;
 
 const int GoalAcc = 7;
 
-double lightAngle(){
-	int onWhite[4];
-	double angle;
-	int iComp = 0;
-	int jComp = 0;
-	int vectori, vectorj;
-	int iCords[4] = {0, 1, 0, -1};
-	int jCords[4] = {1, 0, -1, 0};
-	int lightValues[4]={analogRead(A0), analogRead(A1), analogRead(A2), analogRead(A3)};
-	// Serial.print(lightValues[0]);
-	// Serial.print("\t");
-	// Serial.print(lightValues[1]);
-	// Serial.print("\t");
-	// Serial.print(lightValues[2]);
-	// Serial.print("\t");
-	// Serial.println(lightValues[3]);
-	int thresholds[4] = {42,35,45,50};
-	for (int i; i < 4; i++){
-		if (lightValues[i] > thresholds[i]) onWhite[i] = 1;
-		else onWhite[i] = 0;
-	}
-	for (int i; i < 4; i++){
-		if (onWhite[i]){
-			//Serial.println(jCords[i]);
-			vectori += iComp + iCords[i];
-			vectorj += jComp + jCords[i];
-		}
-	}
-
-	if(vectori!=0||vectorj!=0){
-		double escape = atan2(vectorj, vectori);
-		escape = escape * 180/pi;
-		//Serial.println(escape);
-		angle = mod(escape + 270,360);
-    // if(vectori==0){
-    //   angle = vectorj > 0 ? 0 : 180;
-    // }else{
-    //   if(vectori<0){
-    //     angle = (int)(round(270-atan(vectorj/vectori)*180/pi));
-		// 		angle = 360 - angle;
-    //   } else{
-    //     angle = (int)(round(90-atan(vectorj/vectori)*180/pi));
-		// 		angle = 360 - angle;
-    //   }
-    // }
-  }else{
-    return angle = -30;
-  }
-	//Serial.println(angle);
-	//delay(500);
-	return mod(angle+180,360);
-}
+// double lightAngle(){
+// 	int onWhite[4];
+// 	double angle;
+// 	int iComp = 0;
+// 	int jComp = 0;
+// 	int vectori, vectorj;
+// 	int iCords[4] = {0, 1, 0, -1};
+// 	int jCords[4] = {1, 0, -1, 0};
+// 	int lightValues[4]={analogRead(A0), analogRead(A1), analogRead(A2), analogRead(A3)};
+// 	// Serial.print(lightValues[0]);
+// 	// Serial.print("\t");
+// 	// Serial.print(lightValues[1]);
+// 	// Serial.print("\t");
+// 	// Serial.print(lightValues[2]);
+// 	// Serial.print("\t");
+// 	// Serial.println(lightValues[3]);
+// 	int thresholds[4] = {42,35,45,50};
+// 	for (int i; i < 4; i++){
+// 		if (lightValues[i] > thresholds[i]) onWhite[i] = 1;
+// 		else onWhite[i] = 0;
+// 	}
+// 	for (int i; i < 4; i++){
+// 		if (onWhite[i]){
+// 			//Serial.println(jCords[i]);
+// 			vectori += iComp + iCords[i];
+// 			vectorj += jComp + jCords[i];
+// 		}
+// 	}
+//
+// 	if(vectori!=0||vectorj!=0){
+// 		double escape = atan2(vectorj, vectori);
+// 		escape = escape * 180/pi;
+// 		//Serial.println(escape);
+// 		angle = mod(escape + 270,360);
+//     // if(vectori==0){
+//     //   angle = vectorj > 0 ? 0 : 180;
+//     // }else{
+//     //   if(vectori<0){
+//     //     angle = (int)(round(270-atan(vectorj/vectori)*180/pi));
+// 		// 		angle = 360 - angle;
+//     //   } else{
+//     //     angle = (int)(round(90-atan(vectorj/vectori)*180/pi));
+// 		// 		angle = 360 - angle;
+//     //   }
+//     // }
+//   }else{
+//     return angle = -30;
+//   }
+// 	//Serial.println(angle);
+// 	//delay(500);
+// 	return mod(angle+180,360);
+// }
 
 void setup(){
 	Serial.begin(9600);
@@ -90,11 +91,8 @@ void setup(){
 	compass.calibrate();
 	Motor.Setup(1);
 	tsop.Setup();
-	lastLight = -30;
-	// pinMode(A0,INPUT);
-	// pinMode(A1,INPUT);
-	// pinMode(A2,INPUT);
-	// pinMode(A3,INPUT);
+	lights.Setup();
+	lights.SetThresh();
 }
 
 void loop(){
@@ -103,9 +101,10 @@ void loop(){
 	tsop.FilterValues();
 	tsop.GetAngle(3);
 	tsop.GetStrength(3);
+	lights.GetVal();
 	int angle = tsop.angle;
 	int strength = tsop.strength;
-	int light = lightAngle();
+	int light = lights.LightAngle();
 
 	// int LightFront = analogRead(A0);
 	// int LightLeft = analogRead(A1);
