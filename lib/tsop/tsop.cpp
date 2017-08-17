@@ -27,7 +27,7 @@ void TSOP::Refresh(){
 }
 
 void TSOP::Read(){
-  while(count<200){
+  while(count<255){
     ReadOnce();
   }
   FinishRead();
@@ -38,7 +38,6 @@ void TSOP::FinishRead(){
     TSOPVAL[i] = TSOPTEMPVAL[i];
     TSOPTEMPVAL[i] = 0;
   }
-  Serial.println();
   count = 0;
   Refresh();
 }

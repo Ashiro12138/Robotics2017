@@ -4,7 +4,7 @@
 
 
 void MotorController::Setup(int robot){
-  if (robot==1){
+  if (robot==2){
     motorBackLeft.Setup(13,12,11,true);
     motorFrontLeft.Setup(10,9,8,false);
     motorFrontRight.Setup(7,6,5,true);
@@ -13,12 +13,11 @@ void MotorController::Setup(int robot){
     motorFrontLeft.Setup(13,12,11,true);
     motorBackLeft.Setup(10,9,8,false);
     motorBackRight.Setup(7,6,5,true);
-    motorFrontRight.Setup(4,3,2,false);
+    motorFrontRight.Setup(4,2,3,false);
   }
 }
 
 void MotorController::Move(int angle, int rotation, int speed){
-  Serial.println(angle);
   angle = mod(90 - angle, 360);
 
   double a = cos(degreesToRadians(angle)) / sin(degreesToRadians(45));
