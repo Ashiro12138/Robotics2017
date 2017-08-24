@@ -27,7 +27,7 @@ void TSOP::Refresh(){
 }
 
 void TSOP::Read(){
-  while(count<200){
+  while(count<255){
     ReadOnce();
   }
   FinishRead();
@@ -35,13 +35,9 @@ void TSOP::Read(){
 
 void TSOP::FinishRead(){
   for (int i = 0; i < TSOP_NUM; i++) {
-    if(DEBUG_MODE){
-      Serial.println("TSOP"+String(i)+": "+String(TSOPTEMPVAL[i]));
-    }
     TSOPVAL[i] = TSOPTEMPVAL[i];
     TSOPTEMPVAL[i] = 0;
   }
-  Serial.println();
   count = 0;
   Refresh();
 }
@@ -107,6 +103,7 @@ void TSOP::GetAngleSimple(){
   }
 }
 
+
 void TSOP::GetAngle(int n){
   double vectori = 0;
   double vectorj = 0;
@@ -128,6 +125,11 @@ void TSOP::GetAngle(int n){
   }else{
     angle = 0;
   }
+  angle = 360 - angle;
+  int mag = pow(vectori * vectori + vectorj * vectorj, 0.5);
+  // Serial.println(mag);
+  if (mag < 25) angle = -30;
+//Serial.println(angle);
 }
 
 void TSOP::GetStrengthSimple(){
