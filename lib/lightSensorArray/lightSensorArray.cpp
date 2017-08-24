@@ -8,14 +8,14 @@ void LightSensorArray::Setup(){
 }
 
 void LightSensorArray::SetThresh(){
-  lsFront.SetThresh(42);
-  lsLeft.SetThresh(35);
-  lsBack.SetThresh(45);
-  lsRight.SetThresh(50);
-  thresholds[0] = 42;
-  thresholds[1] = 35;
-  thresholds[2] = 45;
-  thresholds[3] = 50;
+  lsFront.SetThresh(7,70);
+  lsLeft.SetThresh(19,90);
+  lsBack.SetThresh(18,108);
+  lsRight.SetThresh(24,129);
+  thresholds[0] = lsFront.threshold;
+  thresholds[1] = lsLeft.threshold;
+  thresholds[2] = lsBack.threshold;
+  thresholds[3] = lsRight.threshold;
 }
 
 void LightSensorArray::GetVal(){
@@ -30,19 +30,25 @@ void LightSensorArray::GetVal(){
 }
 
 double LightSensorArray::LightAngle(){
-  for (int i = 0; i < 4; i++) {
-    if(onWhite[i]){
-      vectori += iComp + iCords[i];
-      vectorj += iComp + jCords[i];
-    }
+  for (int i; i < 4; i++){
+		if (onWhite[i]){
+			vectori += iCords[i];
+			vectorj += jCords[i];
+		}
+	}
+	if(vectori!=0||vectorj!=0){
+		escape = atan2(vectorj, vectori);
+		escape = escape * 180/pi;
+		angle = mod(escape + 270,360);
+  }else{
+    angle = -30;
+    vectori = 0;
+    vectorj = 0;
+    escape = 0;
+    return angle;
   }
-
-  if(vectori!=0||vectorj!=0){
-    double escape = atan2(vectorj,vectori);
-    escape = escape * 180/pi;
-    angle = mod(escape+270,360);
-  } else{
-    return angle = -30;
-  }
+  vectori = 0;
+  vectorj = 0;
+  escape = 0;
   return mod(angle+180,360);
 }

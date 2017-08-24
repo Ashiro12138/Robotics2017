@@ -30,6 +30,7 @@ Compass compass;
 LightSensorArray lights;
 
 const int GoalAcc = 7;
+const int MoveSpd = 200;
 
 // double lightAngle(){
 // 	int onWhite[4];
@@ -116,6 +117,9 @@ void loop(){
 	if (abs(relativeHeading) > GoalAcc) {
 		correctionRotation = constrain(relativeHeading * 7, -80, 80);
 	}
+	// Serial.print(relativeHeading);
+	// Serial.print('\t');
+	// Serial.println(correctionRotation);
 
 	if(true){
 		if (light == -30){
@@ -127,20 +131,20 @@ void loop(){
 				// Orbit Code Here
 				if (strength<=90){
 					// Too far away, move directly toward the ball
-					Motor.Move(angle,correctionRotation,170);
+					Motor.Move(angle,correctionRotation,MoveSpd);
 				} else{
 					// Close enough to orbit now
 					if (angle>=180){
 						// Ball on left side, no code required in this section; just a place holder
 						if (angle<215){
 							// Move right to make back clear
-							Motor.Move(90,correctionRotation,170);
+							Motor.Move(90,correctionRotation,MoveSpd);
 						} else if (angle<300){
 							// Back is now clear, move back
-							Motor.Move(180,correctionRotation,170);
+							Motor.Move(180,correctionRotation,MoveSpd);
 						} else if (angle<355){
 							// Ball is at front left, now move left
-							Motor.Move(270,correctionRotation,170);
+							Motor.Move(270,correctionRotation,MoveSpd);
 						} else{
 							// Ball at front, now shoot!
 							Motor.Move(0,correctionRotation,255);
@@ -149,13 +153,13 @@ void loop(){
 						// Ball on right side, this is just a place holder
 						if (angle>145){
 							// Move left to make back clear
-							Motor.Move(270,correctionRotation,170);
+							Motor.Move(270,correctionRotation,MoveSpd);
 						} else if (angle>60){
 							// Back clear, move back
-							Motor.Move(180,correctionRotation,170);
+							Motor.Move(180,correctionRotation,MoveSpd);
 						} else if (angle>5){
 							// Ball is at front right, move right
-							Motor.Move(90,correctionRotation,170);
+							Motor.Move(90,correctionRotation,MoveSpd);
 						} else{
 							// Ball infront, now shoot!
 							Motor.Move(0,correctionRotation,255);
@@ -163,17 +167,17 @@ void loop(){
 					}
 				}
 			}
-		}
-	} else {
+		} else {
 		Motor.Move(light, correctionRotation, 170);
+		delay(100);
 	}
+}
 
-	Serial.print(tsop.angle);
-	Serial.print("\t");
-	Serial.println(tsop.strength);
-	// Serial.print(light);
-	// Serial.print(" ");
-	// Serial.println(compass.heading);
+	// for(int i;i<4;i++){
+	// 	Serial.print(lights.lightValues[i]);
+	// 	Serial.print("\t");
+	// }
+	// Serial.println();
 
 
 	// Serial.print(tsop.strength);

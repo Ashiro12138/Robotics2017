@@ -10,8 +10,7 @@ class LightSensorArray{
 public:
   int onWhite[4];
   double angle;
-  int iComp = 0;
-  int jComp = 0;
+  double escape;
   int vectori, vectorj;
   int iCords[4] = {0, 1, 0, -1};
   int jCords[4] = {1, 0, -1, 0};
