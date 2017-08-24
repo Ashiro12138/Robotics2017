@@ -30,7 +30,7 @@ Compass compass;
 LightSensorArray lights;
 
 const int GoalAcc = 7;
-const int MoveSpd = 200;
+const int MoveSpd = 165;
 
 // double lightAngle(){
 // 	int onWhite[4];
@@ -115,11 +115,9 @@ void loop(){
 	int relativeHeading = compass.heading > 180 ? (360 - compass.heading) :-compass.heading;
 	int correctionRotation = 0;
 	if (abs(relativeHeading) > GoalAcc) {
-		correctionRotation = constrain(relativeHeading * 7, -80, 80);
+		correctionRotation = constrain(relativeHeading * 7, -90, 90);
 	}
-	// Serial.print(relativeHeading);
-	// Serial.print('\t');
-	// Serial.println(correctionRotation);
+
 
 	if(true){
 		if (light == -30){
@@ -147,7 +145,7 @@ void loop(){
 							Motor.Move(270,correctionRotation,MoveSpd);
 						} else{
 							// Ball at front, now shoot!
-							Motor.Move(0,correctionRotation,255);
+							Motor.Move(0,correctionRotation,MoveSpd);
 						}
 					} else if (angle<180){
 						// Ball on right side, this is just a place holder
@@ -162,14 +160,14 @@ void loop(){
 							Motor.Move(90,correctionRotation,MoveSpd);
 						} else{
 							// Ball infront, now shoot!
-							Motor.Move(0,correctionRotation,255);
+							Motor.Move(0,correctionRotation,MoveSpd);
 						}
 					}
 				}
 			}
 		} else {
 		Motor.Move(light, correctionRotation, 170);
-		delay(100);
+		delay(500);
 	}
 }
 
