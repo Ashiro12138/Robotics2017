@@ -43,6 +43,14 @@ void MotorController::Move(int angle, int rotation, int speed){
     int motorBackRightSpeed = (int) round(motorBackRightSpeed * updatedSpeed2);
     int motorBackLeftSpeed = (int) round(motorBackLeftSpeed * updatedSpeed2);
   }
+  Serial.print(motorRightSpeed);
+  Serial.print(" ");
+  Serial.print(motorLeftSpeed);
+  Serial.print(" ");
+  Serial.print(motorBackRightSpeed);
+  Serial.print(" ");
+  Serial.println(motorBackLeftSpeed);
+
 
   motorFrontRight.Move(motorRightSpeed);
   motorFrontLeft.Move(motorLeftSpeed);

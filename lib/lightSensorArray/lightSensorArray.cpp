@@ -8,10 +8,10 @@ void LightSensorArray::Setup(){
 }
 
 void LightSensorArray::SetThresh(){
-  lsFront.SetThresh(7,70);
-  lsLeft.SetThresh(19,90);
-  lsBack.SetThresh(18,108);
-  lsRight.SetThresh(24,129);
+  lsFront.SetThresh(9,78);
+  lsLeft.SetThresh(23,103);
+  lsBack.SetThresh(16,56);
+  lsRight.SetThresh(21,90);
   thresholds[0] = lsFront.threshold;
   thresholds[1] = lsLeft.threshold;
   thresholds[2] = lsBack.threshold;

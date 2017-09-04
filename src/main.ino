@@ -30,7 +30,7 @@ Compass compass;
 LightSensorArray lights;
 
 const int GoalAcc = 7;
-const int MoveSpd = 165;
+const int MoveSpd = 255;
 
 // double lightAngle(){
 // 	int onWhite[4];
@@ -115,7 +115,7 @@ void loop(){
 	int relativeHeading = compass.heading > 180 ? (360 - compass.heading) :-compass.heading;
 	int correctionRotation = 0;
 	if (abs(relativeHeading) > GoalAcc) {
-		correctionRotation = constrain(relativeHeading * 7, -90, 90);
+		correctionRotation = constrain(relativeHeading * 7, -80, 80);
 	}
 
 
@@ -166,8 +166,8 @@ void loop(){
 				}
 			}
 		} else {
-		Motor.Move(light, correctionRotation, 170);
-		delay(500);
+		Motor.Move(light, correctionRotation, 150);
+		// delay(500);
 	}
 }
 
