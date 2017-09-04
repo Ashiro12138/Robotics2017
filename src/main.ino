@@ -118,8 +118,9 @@ void loop(){
 		correctionRotation = constrain(relativeHeading * 7, -80, 80);
 	}
 
+	Motor.Move(0,compass.heading*1.5,255);
 
-	if(true){
+	if(false){
 		if (light == -30){
 			// We are not touching a line!
 			if (angle == -30){

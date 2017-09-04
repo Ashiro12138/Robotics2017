@@ -18,44 +18,34 @@ void MotorController::Setup(int robot){
 }
 
 void MotorController::Move(int angle, int rotation, int speed){
-  angle = mod(90 - angle, 360);
+  double angRad = degreesToRadians(360-angle);
 
-  double a = cos(degreesToRadians(angle)) / sin(degreesToRadians(45));
-  double b = sin(degreesToRadians(angle)) / cos(degreesToRadians(45));
+  double weights[2] = {
+      cos(degreesToRadians(45+90)-angRad),
+      cos(degreesToRadians(-45+90)-angRad)
+  };
 
-  double motorRightValue = a - b;
-  double motorBackRightValue = -a - b;
-  double motorBackLeftValue = b - a;
-  double motorLeftValue = a + b;
 
-  double updatedSpeed = (double) speed / doubleAbs(fmax(fmax(fmax(doubleAbs(motorLeftValue), doubleAbs(motorRightValue)), doubleAbs(motorBackRightValue)), doubleAbs(motorBackLeftValue)));
+  double maxVal = fmax(doubleAbs(weights[0]),doubleAbs(weights[1]));
 
-  int motorRightSpeed = (int) round(motorRightValue * updatedSpeed) + rotation;
-  int motorLeftSpeed = (int) round(motorLeftValue * updatedSpeed) + rotation;
-  int motorBackRightSpeed = (int) round(motorBackRightValue * updatedSpeed) + rotation;
-  int motorBackLeftSpeed = (int) round(motorBackLeftValue * updatedSpeed) + rotation;
+  double power = speed/maxVal;
 
-  double updatedSpeed2 = (double) 255 / doubleAbs(fmax(fmax(fmax(doubleAbs(motorLeftSpeed), doubleAbs(motorRightSpeed)), doubleAbs(motorBackRightSpeed)), doubleAbs(motorBackLeftSpeed)));
-
-  if (updatedSpeed2 < 1) {
-    int motorRightSpeed = (int) round(motorRightSpeed * updatedSpeed2);
-    int motorLeftSpeed = (int) round(motorLeftSpeed * updatedSpeed2);
-    int motorBackRightSpeed = (int) round(motorBackRightSpeed * updatedSpeed2);
-    int motorBackLeftSpeed = (int) round(motorBackLeftSpeed * updatedSpeed2);
+  for(int i = 0; i < 2; i++){
+    weights[i] = round(weights[i]*power)+rotation;
   }
-  Serial.print(motorRightSpeed);
-  Serial.print(" ");
-  Serial.print(motorLeftSpeed);
-  Serial.print(" ");
-  Serial.print(motorBackRightSpeed);
-  Serial.print(" ");
-  Serial.println(motorBackLeftSpeed);
 
+  maxVal = fmax(doubleAbs(weights[0]),doubleAbs(weights[1]));
 
-  motorFrontRight.Move(motorRightSpeed);
-  motorFrontLeft.Move(motorLeftSpeed);
-  motorBackRight.Move(motorBackRightSpeed);
-  motorBackLeft.Move(motorBackLeftSpeed);
+  double changeFactor = speed/maxVal;
+
+  for(int i = 0; i < 2; i++){
+    weights[i] = round(weights[i]*changeFactor);
+  }
+
+  motorFrontRight.Move(weights[1]);
+  motorFrontLeft.Move(weights[0]);
+  motorBackRight.Move(-weights[0]);
+  motorBackLeft.Move(-weights[1]);
 }
 
 void MotorController::Turn(int speed){
