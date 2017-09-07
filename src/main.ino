@@ -29,8 +29,6 @@ TSOP tsop;
 Compass compass;
 LightSensorArray lights;
 
-const int GoalAcc = 7;
-const int MoveSpd = 255;
 
 // double lightAngle(){
 // 	int onWhite[4];
@@ -85,6 +83,9 @@ const int MoveSpd = 255;
 // 	return mod(angle+180,360);
 // }
 
+const int GoalAcc = 7;
+const int MoveSpd = 255;
+
 void setup(){
 	Serial.begin(9600);
 	Wire.begin();
@@ -113,14 +114,11 @@ void loop(){
 	// int LightRight = analogRead(A3);
 
 	int relativeHeading = compass.heading > 180 ? (360 - compass.heading) :-compass.heading;
-	int correctionRotation = 0;
-	if (abs(relativeHeading) > GoalAcc) {
-		correctionRotation = constrain(relativeHeading * 7, -80, 80);
-	}
+	int correctionRotation = relativeHeading * 3;
 
-	Motor.Move(0,compass.heading*1.5,255);
+	// Motor.Move(90,0,255);
 
-	if(false){
+	if(true){
 		if (light == -30){
 			// We are not touching a line!
 			if (angle == -30){
@@ -167,7 +165,7 @@ void loop(){
 				}
 			}
 		} else {
-		Motor.Move(light, correctionRotation, 150);
+		Motor.Move(light, correctionRotation, 255);
 		// delay(500);
 	}
 }
