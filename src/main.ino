@@ -29,66 +29,18 @@ TSOP tsop;
 Compass compass;
 LightSensorArray lights;
 
-
-// double lightAngle(){
-// 	int onWhite[4];
-// 	double angle;
-// 	int iComp = 0;
-// 	int jComp = 0;
-// 	int vectori, vectorj;
-// 	int iCords[4] = {0, 1, 0, -1};
-// 	int jCords[4] = {1, 0, -1, 0};
-// 	int lightValues[4]={analogRead(A0), analogRead(A1), analogRead(A2), analogRead(A3)};
-// 	// Serial.print(lightValues[0]);
-// 	// Serial.print("\t");
-// 	// Serial.print(lightValues[1]);
-// 	// Serial.print("\t");
-// 	// Serial.print(lightValues[2]);
-// 	// Serial.print("\t");
-// 	// Serial.println(lightValues[3]);
-// 	int thresholds[4] = {42,35,45,50};
-// 	for (int i; i < 4; i++){
-// 		if (lightValues[i] > thresholds[i]) onWhite[i] = 1;
-// 		else onWhite[i] = 0;
-// 	}
-// 	for (int i; i < 4; i++){
-// 		if (onWhite[i]){
-// 			//Serial.println(jCords[i]);
-// 			vectori += iComp + iCords[i];
-// 			vectorj += jComp + jCords[i];
-// 		}
-// 	}
-//
-// 	if(vectori!=0||vectorj!=0){
-// 		double escape = atan2(vectorj, vectori);
-// 		escape = escape * 180/pi;
-// 		//Serial.println(escape);
-// 		angle = mod(escape + 270,360);
-//     // if(vectori==0){
-//     //   angle = vectorj > 0 ? 0 : 180;
-//     // }else{
-//     //   if(vectori<0){
-//     //     angle = (int)(round(270-atan(vectorj/vectori)*180/pi));
-// 		// 		angle = 360 - angle;
-//     //   } else{
-//     //     angle = (int)(round(90-atan(vectorj/vectori)*180/pi));
-// 		// 		angle = 360 - angle;
-//     //   }
-//     // }
-//   }else{
-//     return angle = -30;
-//   }
-// 	//Serial.println(angle);
-// 	//delay(500);
-// 	return mod(angle+180,360);
-// }
-
 const int GoalAcc = 7;
 const int MoveSpd = 255;
 
 unsigned long previousMillis = 0;
 const long interval	= 200;
 bool voiding = false;
+
+unsigned long compMillis = 0;
+int previousHeading = 0;
+const double kp = 6;
+const double kd = -8;
+
 
 void setup(){
 	Serial.begin(9600);
@@ -99,8 +51,13 @@ void setup(){
 	tsop.Setup();
 	lights.Setup();
 	lights.GetVal();
-	int range = 20;
-	lights.SetThresh(lights.lightValues[0]+range,lights.lightValues[1]+range,lights.lightValues[2]+range,lights.lightValues[3]+range);
+	if(true){
+		lights.SetThresh(40,120,100,150);
+	} else{
+		lights.SetThresh(20,50,50,120);
+	}
+	//int range = 20;
+	//lights.SetThresh(lights.lightValues[0]+range,lights.lightValues[1]+range,lights.lightValues[2]+range,lights.lightValues[3]+range);
 }
 
 void loop(){
@@ -115,58 +72,69 @@ void loop(){
 	int light = lights.LightAngle();
 	unsigned long currentMillis = millis();
 
-	// int LightFront = analogRead(A0);
-	// int LightLeft = analogRead(A1);
-	// int LightBack = analogRead(A2);
-	// int LightRight = analogRead(A3);
 
-	int relativeHeading = compass.heading > 180 ? (360 - compass.heading) :-compass.heading;
+	int relativeHeading = compass.heading > 180 ? (360 - compass.heading) : -compass.heading;
 	int correctionRotation = relativeHeading * 3;
 
-	// Motor.Move(0, correctionRotation , 0);
+	double diffTime = ((double)(currentMillis - compMillis))/100.0;
+	double difference = ((double)(previousHeading - relativeHeading)) / diffTime;
+	compMillis = currentMillis;
+	//Serial.print((previousHeading-relativeHeading));
+	//Serial.print("\t");
+	// Serial.println(difference);
+	previousHeading = relativeHeading;
 
-	if(false){//!voiding){
-		if (light == -30){
+	int correction = round(kp*((double)relativeHeading) + kd*difference);
+
+
+	//Motor.Move(0, correction , 0);
+	// Serial.print(relativeHeading);
+	// Serial.print("\t");
+	// Serial.println(correction);
+
+	//Serial.println(relativeHeading);
+	if(!voiding){
+		if (true){//light == -30){
 			// We are not touching a line!
 			if (angle == -30){
 				// There is no ball around, just compass correct
-				Motor.Move(0,correctionRotation,0);
+				Motor.Move(0,correction,0);
 			} else{
 				// Orbit Code Here
 				if (strength<=90){
 					// Too far away, move directly toward the ball
-					Motor.Move(angle,correctionRotation,MoveSpd);
+					Motor.Move(angle,correction,MoveSpd);
 				} else{
 					// Close enough to orbit now
 					if (angle>=180){
 						// Ball on left side, no code required in this section; just a place holder
 						if (angle<215){
 							// Move right to make back clear
-							Motor.Move(90,correctionRotation,MoveSpd);
+							Motor.Move(90,correction,MoveSpd);
 						} else if (angle<300){
 							// Back is now clear, move back
-							Motor.Move(180,correctionRotation,MoveSpd);
+							Motor.Move(180,correction,MoveSpd);
 						} else if (angle<355){
 							// Ball is at front left, now move left
-							Motor.Move(270,correctionRotation,MoveSpd);
+							Motor.Move(270,correction,MoveSpd);
 						} else{
 							// Ball at front, now shoot!
-							Motor.Move(0,correctionRotation,MoveSpd);
+							Motor.Move(0,correction,MoveSpd);
 						}
 					} else if (angle<180){
 						// Ball on right side, this is just a place holder
 						if (angle>145){
 							// Move left to make back clear
-							Motor.Move(270,correctionRotation,MoveSpd);
+							Motor.Move(270,correction,MoveSpd);
 						} else if (angle>60){
 							// Back clear, move back
-							Motor.Move(180,correctionRotation,MoveSpd);
+							Motor.Move(180,correction,MoveSpd);
 						} else if (angle>5){
 							// Ball is at front right, move right
-							Motor.Move(90,correctionRotation,MoveSpd);
+							Motor.Move(90,correction,MoveSpd);
 						} else{
 							// Ball infront, now shoot!
-							Motor.Move(0,correctionRotation,MoveSpd);
+							Motor.Move(0,correction,MoveSpd);
 						}
 					}
 				}
@@ -174,7 +142,7 @@ void loop(){
 		} else {
 			previousMillis = currentMillis;
 			voiding = true;
-			Motor.Move(light, correctionRotation, 255);
+			Motor.Move(light, correction, 255);
 		// delay(500);
 	}
 }else{
@@ -183,11 +151,11 @@ void loop(){
 	}
 }
 
-	for(int i;i<4;i++){
-		Serial.print(lights.lightValues[i]);
-		Serial.print("\t");
-	}
-	Serial.println();
+	// for(int i;i<4;i++){
+	// 	Serial.print(lights.lightValues[i]);
+	// 	Serial.print("\t");
+	// }
+	// Serial.println();
 
 
 	// Serial.print(tsop.strength);
