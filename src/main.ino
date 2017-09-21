@@ -86,6 +86,10 @@ LightSensorArray lights;
 const int GoalAcc = 7;
 const int MoveSpd = 255;
 
+unsigned long previousMillis = 0;
+const long interval	= 200;
+bool voiding = false;
+
 void setup(){
 	Serial.begin(9600);
 	Wire.begin();
@@ -94,7 +98,9 @@ void setup(){
 	Motor.Setup(1);
 	tsop.Setup();
 	lights.Setup();
-	lights.SetThresh();
+	lights.GetVal();
+	int range = 20;
+	lights.SetThresh(lights.lightValues[0]+range,lights.lightValues[1]+range,lights.lightValues[2]+range,lights.lightValues[3]+range);
 }
 
 void loop(){
@@ -107,6 +113,7 @@ void loop(){
 	int angle = tsop.angle;
 	int strength = tsop.strength;
 	int light = lights.LightAngle();
+	unsigned long currentMillis = millis();
 
 	// int LightFront = analogRead(A0);
 	// int LightLeft = analogRead(A1);
@@ -116,9 +123,9 @@ void loop(){
 	int relativeHeading = compass.heading > 180 ? (360 - compass.heading) :-compass.heading;
 	int correctionRotation = relativeHeading * 3;
 
-	// Motor.Move(90,0,255);
+	// Motor.Move(0, correctionRotation , 0);
 
-	if(true){
+	if(false){//!voiding){
 		if (light == -30){
 			// We are not touching a line!
 			if (angle == -30){
@@ -165,16 +172,22 @@ void loop(){
 				}
 			}
 		} else {
-		Motor.Move(light, correctionRotation, 255);
+			previousMillis = currentMillis;
+			voiding = true;
+			Motor.Move(light, correctionRotation, 255);
 		// delay(500);
+	}
+}else{
+	if(currentMillis - previousMillis >= interval){
+		voiding = false;
 	}
 }
 
-	// for(int i;i<4;i++){
-	// 	Serial.print(lights.lightValues[i]);
-	// 	Serial.print("\t");
-	// }
-	// Serial.println();
+	for(int i;i<4;i++){
+		Serial.print(lights.lightValues[i]);
+		Serial.print("\t");
+	}
+	Serial.println();
 
 
 	// Serial.print(tsop.strength);

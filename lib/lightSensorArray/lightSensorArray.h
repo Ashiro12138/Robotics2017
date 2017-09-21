@@ -23,7 +23,7 @@ public:
   LightSensor lsRight;
 
   void Setup();
-  void SetThresh();
+  void SetThresh(int front, int left, int back, int right);
   void GetVal();
   double LightAngle();
 };
