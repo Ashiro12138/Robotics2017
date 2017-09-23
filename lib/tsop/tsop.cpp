@@ -35,8 +35,14 @@ void TSOP::Read(){
 
 void TSOP::FinishRead(){
   for (int i = 0; i < TSOP_NUM; i++) {
-    TSOPVAL[i] = TSOPTEMPVAL[i];
-    TSOPTEMPVAL[i] = 0;
+    if (TSOPTEMPVAL[i] > 50) {
+      TSOPVAL[i] = TSOPTEMPVAL[i];
+      TSOPTEMPVAL[i] = 0;
+    }
+    else {
+      TSOPVAL[i] = 0;
+      TSOPTEMPVAL[i] = 0;
+    }
   }
   count = 0;
   Refresh();
