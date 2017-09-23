@@ -39,8 +39,8 @@ int oldLight = 0;
 
 unsigned long compMillis = 0;
 int previousHeading = 0;
-const double kp = 6;
-const double kd = -8;//-8;
+const double kp = 4.5;
+const double kd = 9;//-8;
 
 
 void setup(){
@@ -78,95 +78,37 @@ void loop(){
 
 
 	int relativeHeading = compass.heading > 180 ? (360 - compass.heading) : -compass.heading;
-	// int correctionRotation = relativeHeading * 3;
 
 	double diffTime = ((double)(currentMillis - compMillis))/100.0;
-	double difference = ((double)(previousHeading - relativeHeading)) / diffTime;
+	double difference = ((double)(relativeHeading - previousHeading)) / diffTime;
 	compMillis = currentMillis;
-	//Serial.print((previousHeading-relativeHeading));
-	//Serial.print("\t");
-	// Serial.println(difference);
+
 	previousHeading = relativeHeading;
 
 	int correction = round(kp*((double)relativeHeading) + kd*difference);
 
+	Motor.Move(0,correction,0);
 
-	//Motor.Move(0, correction , 0);
-	// Serial.print(relativeHeading);
-	// Serial.print("\t");
-	// Serial.println(correction);
-
-	// Serial.println(angle);
-	//Serial.println(relativeHeading);
-	if(!voiding){
-		if (light == -30){
-			// We are not touching a line!
-			if (angle == -30){
-				// There is no ball around, just compass correct
-				Motor.Move(0,correction,0);
-			} else{
-				// Orbit Code Here
-				if (strength<=90){
-					// Too far away, move directly toward the ball
-					Motor.Move(angle,correction,MoveSpd);
-				} else{
-					// Close enough to orbit now
-					if (angle>=180){
-						// Ball on left side, no code required in this section; just a place holder
-						if (angle<240){
-							// Move right to make back clear
-							Motor.Move(90,correction,MoveSpd);
-						} else if (angle<300){
-							// Back is now clear, move back
-							Motor.Move(180,correction,MoveSpd);
-						} else if (angle<350){
-							// Ball is at front left, now move left
-							Motor.Move(270,correction,MoveSpd);
-						} else{
-							// Ball at front, now shoot!
-							Motor.Move(0,correction,MoveSpd);
-						}
-					} else if (angle<180){
-						// Ball on right side, this is just a place holder
-						if (angle>120){
-							// Move left to make back clear
-							Motor.Move(270,correction,MoveSpd);
-						} else if (angle>60){
-							// Back clear, move back
-							Motor.Move(180,correction,MoveSpd);
-						} else if (angle>25){
-							// Ball is at front right, move right
-							Motor.Move(90,correction,MoveSpd);
-						} else{
-							// Ball infront, now shoot!
-							Motor.Move(0,correction,MoveSpd);
-						}
-					}
-				}
-			}
-		} else {
-			previousMillis = currentMillis;
-			voiding = true;
-			oldLight = light;
-			Motor.Move(oldLight, correction, 255);
-		}
-		}else{
-			Motor.Move(oldLight, correction, 255);
-			if(currentMillis - previousMillis >= interval){
-				voiding = false;
-			}
-		}
-
-		//Serial.println(compass.heading);
-
-	// for(int i;i<4;i++){
-	// 	Serial.print(lights.lightValues[i]);
-	// 	Serial.print("\t");
+	// if(angle>=180){
+	// 	if(angle<200){
+	// 		Motor.Move(90,correction,MoveSpd);
+	// 	} else if(angle<260){
+	// 		Motor.Move(180,correction,MoveSpd);
+	// 	} else if(angle<346){
+	// 		Motor.Move(225,correction,MoveSpd);
+	// 	} else{
+	// 		Motor.Move(360,correction,MoveSpd);
+	// 	}
+	// } else{
+	// 	if(angle>160){
+	// 		Motor.Move(270,correction,MoveSpd);
+	// 	} else if(angle>100){
+	// 		Motor.Move(180,correction,MoveSpd);
+	// 	} else if(angle>14){
+	// 		Motor.Move(135,correction,MoveSpd);
+	// 	} else{
+	// 		Motor.Move(0,correction,MoveSpd);
+	// 	}
 	// }
-	// Serial.println();
 
-
-	// Serial.print(tsop.strength);
-
-	// Motor.Move(0, 0, 120);
 }
