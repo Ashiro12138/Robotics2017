@@ -30,7 +30,7 @@ Compass compass;
 LightSensorArray lights;
 
 const int GoalAcc = 7;
-const int MoveSpd = 100;
+const int MoveSpd = 255;
 
 unsigned long previousMillis = 0;
 const long interval	= 200;
@@ -39,8 +39,8 @@ int oldLight = 0;
 
 unsigned long compMillis = 0;
 int previousHeading = 0;
-const double kp = 6;
-const double kd = -8;//-8;
+const double kp = 4.5;
+const double kd = 9;//-8;
 
 
 void setup(){
@@ -52,11 +52,11 @@ void setup(){
 	tsop.Setup();
 	lights.Setup();
 	lights.GetVal();
-	int robot = 3;
+	int robot = 2;
 	if(robot==1){
-		lights.SetThresh(50,120,80,100);
+		lights.SetThresh(35,100,70,140);
 	} else if(robot==2){
-		lights.SetThresh(30,70,50,100);
+		lights.SetThresh(20,70,60,90);
 	} else{
 		lights.SetThresh(999,999,999,999);
 	}
@@ -81,7 +81,7 @@ void loop(){
 	// int correctionRotation = relativeHeading * 3;
 
 	double diffTime = ((double)(currentMillis - compMillis))/100.0;
-	double difference = ((double)(previousHeading - relativeHeading)) / diffTime;
+	double difference = ((double)(relativeHeading - previousHeading)) / diffTime;
 	compMillis = currentMillis;
 	//Serial.print((previousHeading-relativeHeading));
 	//Serial.print("\t");
@@ -98,6 +98,8 @@ void loop(){
 
 	// Serial.println(angle);
 	//Serial.println(relativeHeading);
+
+
 	if(!voiding){
 		if (light == -30){
 			// We are not touching a line!
@@ -113,12 +115,12 @@ void loop(){
 					// Close enough to orbit now
 					if (angle>=180){
 						// Ball on left side, no code required in this section; just a place holder
-						if (angle<240){
+						if (angle<210){
 							// Move right to make back clear
 							Motor.Move(90,correction,MoveSpd);
-						} else if (angle<300){
+						} else if (angle<280){
 							// Back is now clear, move back
-							Motor.Move(180,correction,MoveSpd);
+							Motor.Move(185,correction,MoveSpd);
 						} else if (angle<350){
 							// Ball is at front left, now move left
 							Motor.Move(270,correction,MoveSpd);
@@ -128,13 +130,13 @@ void loop(){
 						}
 					} else if (angle<180){
 						// Ball on right side, this is just a place holder
-						if (angle>120){
+						if (angle>150){
 							// Move left to make back clear
 							Motor.Move(270,correction,MoveSpd);
 						} else if (angle>60){
 							// Back clear, move back
-							Motor.Move(180,correction,MoveSpd);
-						} else if (angle>25){
+							Motor.Move(165,correction,MoveSpd);
+						} else if (angle>20){
 							// Ball is at front right, move right
 							Motor.Move(90,correction,MoveSpd);
 						} else{
@@ -156,6 +158,9 @@ void loop(){
 				voiding = false;
 			}
 		}
+
+
+
 
 		//Serial.println(compass.heading);
 
